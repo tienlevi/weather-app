@@ -15,7 +15,7 @@ const date = new Date().toDateString();
     </div>
     <div class="text-white">
       <p class="text-[40px] font-bold">
-        {{ data?.main?.temp.toFixed(0) / 10 }}°C
+        {{ Math.round(data?.main?.temp - 272.15) }}°C
       </p>
       <p class="text-[18px]">{{ data?.weather[0]?.main }}</p>
     </div>

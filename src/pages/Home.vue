@@ -2,12 +2,13 @@
 import { onMounted, ref } from "vue";
 import Location from "../components/Location/Location.vue";
 import Temperature from "../components/Temperature/Temperature.vue";
-import { currentWeather } from "../services";
+import { currentLocation, searchLocation } from "../services";
 
 const search = ref("");
+
 const data = ref(null);
-const searchLocation = async () => {
-  const response = await currentWeather(search.value);
+const handleSearchLocation = async () => {
+  const response = await searchLocation(search.value);
   data.value = response;
 };
 
@@ -15,9 +16,17 @@ const handleChange = (newValue) => {
   search.value = newValue;
 };
 
-onMounted(async () => {
-  const response = await currentWeather(search.value || "Ha Noi");
-  data.value = response;
+onMounted(() => {
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      const response = await currentLocation(
+        pos.coords.latitude,
+        pos.coords.longitude,
+      );
+      data.value = response;
+    },
+    (err) => console.log(err),
+  );
 });
 </script>
 
@@ -31,7 +40,7 @@ onMounted(async () => {
         v-model="search"
         :search="search"
         :data="data"
-        @submit="searchLocation"
+        @submit="handleSearchLocation"
         @change="handleChange"
       />
     </div>
