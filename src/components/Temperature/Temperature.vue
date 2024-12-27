@@ -1,14 +1,17 @@
 <script setup>
-import Week from "./Week.vue";
 import { Icon } from "@iconify/vue/dist/iconify.js";
+const { data, forecastData, search } = defineProps([
+  "data",
+  "forecastData",
+  "search",
+]);
 
-const { data, search } = defineProps(["data", "search"]);
 const emit = defineEmits(["submit", "change"]);
 </script>
 
 <template>
   <div
-    class="flex flex-col justify-between w-[300px] bg-second p-6 rounded-r-3xl"
+    class="flex flex-col justify-between w-[400px] bg-second p-6 rounded-r-3xl"
   >
     <div class="text-white">
       <div class="flex justify-between leading-7">
@@ -24,10 +27,22 @@ const emit = defineEmits(["submit", "change"]);
         <p>{{ data?.wind?.speed }}</p>
       </div>
     </div>
-    <Week />
+    <div class="grid grid-cols-3 gap-2 mt-5 rounded-[10px]">
+      <div
+        v-for="list in forecastData"
+        class="flex flex-col items-center bg-white p-3 rounded-[10px]"
+      >
+        <img
+          :src="`https://openweathermap.org/img/wn/${list.weather[0].icon}.png`"
+          alt=""
+        />
+        <div class="text-center">{{ list?.dt_txt }}</div>
+        <div>{{ Math.round(list?.main?.temp - 272.15) }}°C</div>
+      </div>
+    </div>
     <form
       @submit.prevent="emit('submit')"
-      class="relative flex items-center bg-gray-700 rounded-md"
+      class="relative mt-5 flex items-center bg-gray-700 rounded-md"
     >
       <input
         placeholder="Find Location"

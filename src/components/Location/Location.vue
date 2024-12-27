@@ -6,7 +6,7 @@ const date = new Date().toDateString();
 
 <template>
   <div
-    class="flex flex-col justify-between bg-gradient px-4 py-6 w-[300px] rounded-l-3xl"
+    class="flex flex-col justify-between bg-gradient px-4 py-6 w-[350px] rounded-l-3xl"
   >
     <div class="text-white">
       <p class="text-[32px] font-bold">Tuesday</p>

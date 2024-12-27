@@ -21,9 +21,20 @@ export const currentLocation = async (lat, lon) => {
   }
 };
 
-export const forecastNextDay = async () => {
+export const forecastNextDay = async (query) => {
   try {
     const response = await instance.get(`/forecast?q=${query}&appid=${apiKey}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const forecastCurrentLocation = async (lat, lon) => {
+  try {
+    const response = await instance.get(
+      `/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`,
+    );
     return response.data;
   } catch (error) {
     console.log(error);
